@@ -1,16 +1,13 @@
-# barometer_app
+# Barometer WearOS
 
-A new Flutter project.
+This Flutter app is designed for Wear OS devices to access and display Barometer values, Location data, and Altitude information. It utilizes Flutter's cross-platform capabilities to deliver sensor data directly to your wrist. This README provides an overview of the app's features.
 
-## Getting Started
+**Note**: Before using this app, please ensure that your Wear OS device supports the necessary sensors and permissions.
 
-This project is a starting point for a Flutter application.
+## Features
 
-A few resources to get you started if this is your first Flutter project:
+- **Barometer Data**: Access real-time barometer readings.
+- **Location Data**: Retrieve location information
+- **Altitude Information**: Altitude based on location
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
