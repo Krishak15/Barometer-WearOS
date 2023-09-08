@@ -12,6 +12,8 @@ This Flutter app is designed for Wear OS devices to access and display Barometer
 - **Location Data**: Retrieve location information
 - **Altitude Information**: Altitude based on location
 
+**Note**: To enable geocoding functionality, please obtain an API key from the website https://locationiq.com/ and add it on appropriate dart file.
+
 Lava Animation credit - https://github.com/RetroMusicPlayer/Paisa
 
 
