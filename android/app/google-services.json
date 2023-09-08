@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "55476942467",
+    "project_id": "wearos-connect",
+    "storage_bucket": "wearos-connect.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:55476942467:android:23ac57373c0c5c6d7acdb6",
+        "android_client_info": {
+          "package_name": "com.example.barometer_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "55476942467-rup415vs521cc8bti256lihhlnv2nhqf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtbDvBlYE4CAiK4GB8hBDUddjQmXBHrno"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "55476942467-rup415vs521cc8bti256lihhlnv2nhqf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:55476942467:android:0b1b0134898a174e7acdb6",
+        "android_client_info": {
+          "package_name": "com.example.wearos_connect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "55476942467-rup415vs521cc8bti256lihhlnv2nhqf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtbDvBlYE4CAiK4GB8hBDUddjQmXBHrno"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "55476942467-rup415vs521cc8bti256lihhlnv2nhqf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
