@@ -14,6 +14,14 @@ This Flutter app is designed for Wear OS devices to access and display Barometer
 
 **Note**: To enable geocoding functionality, please obtain an API key from the website https://locationiq.com/ and add it on appropriate dart file.
 
+## Screenshots
+
+![Screenshot_20230908_213348_barometer_app](https://github.com/Krishak15/Barometer-WearOS/assets/34805219/c9c6ceff-fb91-4b44-8501-91c7c621ab8e)
+
+![Screenshot_20230908_213440_barometer_app](https://github.com/Krishak15/Barometer-WearOS/assets/34805219/affc62f0-6e98-416e-bc34-3a372f0b7811)
+
+
+
 Lava Animation credit - https://github.com/RetroMusicPlayer/Paisa
 
 
