@@ -4,6 +4,8 @@ This Flutter app is designed for Wear OS devices to access and display Barometer
 
 **Note**: Before using this app, please ensure that your Wear OS device supports the necessary sensors and permissions.
 
+⚠️ Please note that this version is in **beta** and may contain bugs.
+
 ## Features
 
 - **Barometer Data**: Access real-time barometer readings.
