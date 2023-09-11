@@ -30,7 +30,7 @@ class SensorDataProvider with ChangeNotifier {
     notifyListeners();
 
     // Start updating at 2-minute intervals
-    _pressureStreamSubscription = Stream.periodic(const Duration(seconds: 1))
+    _pressureStreamSubscription = Stream.periodic(const Duration(minutes: 5))
         .asyncMap((_) => environmentSensors!.pressure.first)
         .listen((pressure) {
       // print(pressure);
