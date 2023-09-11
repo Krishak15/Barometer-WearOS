@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
+import 'services/location/location_permission.dart';
 import 'services/reverse_geocoding/geocodingapi.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await requestLocationPermission();
 
   // LocationProvider coordinates = LocationProvider();
   // await coordinates.getCurrentLocation();
