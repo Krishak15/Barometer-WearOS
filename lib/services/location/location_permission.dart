@@ -1,6 +1,6 @@
 import 'package:permission_handler/permission_handler.dart';
 
-void requestLocationPermission() async {
+Future<void> requestLocationPermission() async {
   var status = await Permission.location.request();
 
   if (status.isGranted) {
