@@ -18,7 +18,7 @@ This Flutter app is designed for Wear OS devices to access and display Barometer
 
 ## Screenshots
 
-<img src="screenshots/scr1.png" width="100"/> | <img src="screenshots/scr2.png" width="100"/> 
+<img src="screenshots/scr1.png" width="150"/> | <img src="screenshots/scr2.png" width="150"/> 
 
 
 Lava Animation credit - https://github.com/RetroMusicPlayer/Paisa
