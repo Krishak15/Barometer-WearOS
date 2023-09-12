@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 
-import 'location_permission.dart';
+import '../../permissions/location_permission.dart';
 
 class LocationProvider with ChangeNotifier {
   double? latitude;
