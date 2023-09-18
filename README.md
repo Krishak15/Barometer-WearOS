@@ -4,16 +4,17 @@
 # Barometer WearOS
 
 This Flutter app is designed for Wear OS devices to access and display Barometer values, Location data, and Altitude information. It utilizes Flutter's cross-platform capabilities to deliver sensor data directly to your wrist. This README provides an overview of the app's features.
-
+&nbsp;
 <div id="image-container">
   <img src="screenshots/Barometer.png" alt="Poster">
 </div>
-
+&nbsp;
+&nbsp;
 
 **Note**: Before using this app, please ensure that your Wear OS device supports the necessary sensors and permissions.
 
 ⚠️ Please note that this version is in **beta** and may contain bugs.
-
+&nbsp;
 ## Features
 
 - **Barometer Data**: Access real-time barometer readings.
@@ -24,7 +25,7 @@ This Flutter app is designed for Wear OS devices to access and display Barometer
 
 ## Screenshots
 
-<img src="screenshots/scr1.png" width="150"/> | <img src="screenshots/scr2.png" width="150"/> 
+<img src="screenshots/scr1.png" width="150"/> &nbsp; <img src="screenshots/scr2.png" width="150"/> 
 
 ## How to debug
 
@@ -39,7 +40,8 @@ This Flutter app is designed for Wear OS devices to access and display Barometer
    
 
   
-
+&nbsp;
+&nbsp;
 
 Lava lamp Animation credit - https://github.com/RetroMusicPlayer/Paisa
 
