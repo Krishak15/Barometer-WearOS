@@ -26,6 +26,20 @@ This Flutter app is designed for Wear OS devices to access and display Barometer
 
 <img src="screenshots/scr1.png" width="150"/> | <img src="screenshots/scr2.png" width="150"/> 
 
+## How to debug
+
+1) Enable developer options on your WearOS device.
+2) Enable USB Debugging and Wireless debugging.
+3) Both PC and Watch should be on same Wi-Fi network.
+4) Pair device using ```adb pair <IP of device>``` then enter pairing code when prompted for secure TCP/IP communication.
+5) ```adb pair``` is used for wifi pairing your device with Android >= 11, while ```adb connect``` can be used to connect directly to a device with Android <11 over wifi.
+6) Either you can debug directly or Build app using ```flutter build apk``` command and install the app using ```adb install <path to .apk file>``` **recommended**
+
+   
+   
+
+  
+
 
 Lava lamp Animation credit - https://github.com/RetroMusicPlayer/Paisa
 
