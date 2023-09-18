@@ -1,3 +1,6 @@
+![my badge](https://img.shields.io/badge/Made%20with-Flutter-blue?style=for-the-badge&logo=flutter)  &nbsp;  &nbsp; ![my badge](https://img.shields.io/github/last-commit/Krishak15/Barometer-WearOS/main?style=for-the-badge) 
+&nbsp;
+
 # Barometer WearOS
 
 This Flutter app is designed for Wear OS devices to access and display Barometer values, Location data, and Altitude information. It utilizes Flutter's cross-platform capabilities to deliver sensor data directly to your wrist. This README provides an overview of the app's features.
