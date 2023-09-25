@@ -49,6 +49,8 @@ dependencies:
   icons_launcher: ^2.1.3
   wearable_rotary: ^2.0.2
   rotary_scrollbar: ^0.1.1
+  scroll_snap_list: ^0.9.1
+  glass_kit: ^3.0.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0
