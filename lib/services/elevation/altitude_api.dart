@@ -59,7 +59,9 @@ class AltitudeApiProvider with ChangeNotifier {
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
-      print("Elevation Fetched");
+      if (kDebugMode) {
+        print("Elevation Fetched");
+      }
       isLoading = true;
       notifyListeners();
       final altitudeData = jsonDecode(response.body);

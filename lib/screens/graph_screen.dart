@@ -17,7 +17,7 @@ class _GraphScreenState extends State<GraphScreen> {
           height: double.infinity,
           width: double.infinity,
           color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-          child: Center(child: LineChartSample2())),
+          child: const Center(child: LineChartSample2())),
     );
   }
 }

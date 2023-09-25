@@ -1,8 +1,10 @@
+import 'package:barometer_app/screens/details_screen.dart';
 import 'package:barometer_app/services/elevation/altitude_api.dart';
 import 'package:barometer_app/services/broadcast/sensor_data.dart';
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:intl/intl.dart';
@@ -69,44 +71,31 @@ class _MainScreenState extends State<MainScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return WillPopScope(
-      onWillPop: () async {
-        // Allow the app to exit only when you are on the first screen
-        if (Navigator.of(context).userGestureInProgress) {
-          return true;
-        } else {
-          // Navigate to the first screen when pressing the back button
-          Navigator.of(context).popUntil((route) => route.isFirst);
-          return false; // Prevent the app from exiting
-        }
-      },
-      child: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-        body: FutureBuilder<void>(
-          future: Provider.of<SensorDataProvider>(context, listen: false)
-              .initPlatformState(),
-          builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              return _buildStreamBuilder(context);
-            } else if (snapshot.hasError) {
-              return const Center(
-                  child: Text('Error initializing sensor data'));
-            } else {
-              return SizedBox(
-                height: double.infinity,
-                width: double.infinity,
-                child: Container(
-                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                  child: const Center(
-                      child: CircularProgressIndicator(
-                    color: Colors.amber,
-                    strokeWidth: 1.2,
-                  )),
-                ),
-              );
-            }
-          },
-        ),
+    return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+      body: FutureBuilder<void>(
+        future: Provider.of<SensorDataProvider>(context, listen: false)
+            .initPlatformState(),
+        builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return _buildStreamBuilder(context);
+          } else if (snapshot.hasError) {
+            return const Center(child: Text('Error initializing sensor data'));
+          } else {
+            return SizedBox(
+              height: double.infinity,
+              width: double.infinity,
+              child: Container(
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                child: const Center(
+                    child: CircularProgressIndicator(
+                  color: Colors.amber,
+                  strokeWidth: 1.2,
+                )),
+              ),
+            );
+          }
+        },
       ),
     );
   }
@@ -234,58 +223,109 @@ class _MainScreenState extends State<MainScreen>
                               color: Colors.white,
                             ),
                             const SizedBox(
-                              width: 3,
+                              width: 2,
                             ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.6,
-                              height: 18,
-                              child: revGeoLoading == false
-                                  ? Marquee(
-                                      startAfter: Duration(
-                                          seconds: revGeoLoading ? 5 : 0),
-                                      fadingEdgeEndFraction: 0.35,
-                                      fadingEdgeStartFraction: 0.15,
-                                      showFadingOnlyWhenScrolling: false,
-                                      text: displayName,
-                                      style: GoogleFonts.poppins(
-                                          wordSpacing: 1,
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 11,
-                                          color: Colors.white),
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      blankSpace: 20.0,
-                                      velocity: 50.0,
-                                      pauseAfterRound:
-                                          const Duration(seconds: 5),
-                                      startPadding: 4.0,
-                                      accelerationDuration:
-                                          const Duration(seconds: 2),
-                                      accelerationCurve: Curves.linear,
-                                      decelerationDuration:
-                                          const Duration(milliseconds: 500),
-                                      decelerationCurve: Curves.easeOut,
-                                    )
-                                  : Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.6,
-                                          child: Text(
-                                            locationName,
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: GoogleFonts.poppins(
-                                                color: Colors.white,
-                                                fontSize: 10),
-                                          ),
+                            Stack(
+                              children: [
+                                revGeoLoading
+                                    ? const SizedBox()
+                                    : SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.7,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                Navigator.of(context)
+                                                    .push(MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const DetailsScreen(),
+                                                ));
+                                                HapticFeedback.lightImpact();
+                                              },
+                                              child: const Padding(
+                                                padding:
+                                                    EdgeInsets.only(top: 1),
+                                                child: Icon(
+                                                  Icons
+                                                      .arrow_forward_ios_rounded,
+                                                  size: 16,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.6,
+                                  height: 18,
+                                  child: revGeoLoading == false
+                                      ? GestureDetector(
+                                          onTap: () {
+                                            Navigator.of(context)
+                                                .push(MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const DetailsScreen(),
+                                            ));
+                                            HapticFeedback.lightImpact();
+                                          },
+                                          child: Marquee(
+                                            startAfter: Duration(
+                                                seconds: revGeoLoading ? 5 : 0),
+                                            fadingEdgeEndFraction: 0.35,
+                                            fadingEdgeStartFraction: 0.15,
+                                            showFadingOnlyWhenScrolling: false,
+                                            text: displayName,
+                                            style: GoogleFonts.poppins(
+                                                wordSpacing: 1,
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 11,
+                                                color: Colors.white),
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            blankSpace: 20.0,
+                                            velocity: 50.0,
+                                            pauseAfterRound:
+                                                const Duration(seconds: 5),
+                                            startPadding: 4.0,
+                                            accelerationDuration:
+                                                const Duration(seconds: 2),
+                                            accelerationCurve: Curves.linear,
+                                            decelerationDuration:
+                                                const Duration(
+                                                    milliseconds: 500),
+                                            decelerationCurve: Curves.easeOut,
+                                          ),
+                                        )
+                                      : Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.6,
+                                              child: Text(
+                                                locationName,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: GoogleFonts.poppins(
+                                                    color: Colors.white,
+                                                    fontSize: 10),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
