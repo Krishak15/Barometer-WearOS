@@ -28,7 +28,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ReverseGeoCodingProvider()),
         // ChangeNotifierProvider(create: (_) => LocationProvider()),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: MainScreen()
+        home: const MainScreen()
 
         // MyPageView(
         //   pageController: _pageController,
