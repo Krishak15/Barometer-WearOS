@@ -23,7 +23,8 @@ class MainScreen extends StatefulWidget {
   State<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends State<MainScreen>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     //
@@ -67,31 +68,45 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-      body: FutureBuilder<void>(
-        future: Provider.of<SensorDataProvider>(context, listen: false)
-            .initPlatformState(),
-        builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return _buildStreamBuilder(context);
-          } else if (snapshot.hasError) {
-            return const Center(child: Text('Error initializing sensor data'));
-          } else {
-            return SizedBox(
-              height: double.infinity,
-              width: double.infinity,
-              child: Container(
-                color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                child: const Center(
-                    child: CircularProgressIndicator(
-                  color: Colors.amber,
-                  strokeWidth: 1.2,
-                )),
-              ),
-            );
-          }
-        },
+    super.build(context);
+    return WillPopScope(
+      onWillPop: () async {
+        // Allow the app to exit only when you are on the first screen
+        if (Navigator.of(context).userGestureInProgress) {
+          return true;
+        } else {
+          // Navigate to the first screen when pressing the back button
+          Navigator.of(context).popUntil((route) => route.isFirst);
+          return false; // Prevent the app from exiting
+        }
+      },
+      child: Scaffold(
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+        body: FutureBuilder<void>(
+          future: Provider.of<SensorDataProvider>(context, listen: false)
+              .initPlatformState(),
+          builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return _buildStreamBuilder(context);
+            } else if (snapshot.hasError) {
+              return const Center(
+                  child: Text('Error initializing sensor data'));
+            } else {
+              return SizedBox(
+                height: double.infinity,
+                width: double.infinity,
+                child: Container(
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                  child: const Center(
+                      child: CircularProgressIndicator(
+                    color: Colors.amber,
+                    strokeWidth: 1.2,
+                  )),
+                ),
+              );
+            }
+          },
+        ),
       ),
     );
   }
@@ -343,4 +358,7 @@ class _MainScreenState extends State<MainScreen> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
