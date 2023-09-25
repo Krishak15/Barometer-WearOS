@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
+
 import 'permissions/location_permission.dart';
 import 'permissions/sensors_permission.dart';
+
 import 'services/reverse_geocoding/geocodingapi.dart';
 
 void main() async {
@@ -26,7 +28,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ReverseGeoCodingProvider()),
         // ChangeNotifierProvider(create: (_) => LocationProvider()),
       ],
-      child: const MyApp(),
+      child: MyApp(),
     ),
   );
 }
@@ -34,17 +36,28 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Barometer',
-      theme: ThemeData(
-        visualDensity: VisualDensity.compact,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MainScreen(),
-    );
+
+        title: 'Barometer',
+        theme: ThemeData(
+          visualDensity: VisualDensity.compact,
+
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: MainScreen()
+
+        // MyPageView(
+        //   pageController: _pageController,
+        //   onPageChanged: (index) {
+        //     _currentPageIndex = index;
+        //   },
+        // ),
+        );
   }
 }
