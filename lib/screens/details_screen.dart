@@ -80,10 +80,30 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   children: [
                     const Center(
                       child: LavaAnimation(
+                          // color: Colors.red,
                           child: SizedBox(
                         height: double.infinity,
-                        width: 120,
+                        width: 100,
                       )),
+                    ),
+                    GlassContainer(
+                      height: MediaQuery.of(context).size.height,
+                      blur: 10,
+                      width: MediaQuery.of(context).size.width,
+                      borderRadius: BorderRadius.circular(35),
+                      borderWidth: 0.0,
+                      borderGradient: const LinearGradient(
+                        colors: [
+                          Colors.white,
+                          Colors.white,
+                          Colors.lightBlueAccent,
+                          Colors.lightBlueAccent
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        stops: [0.0, 0.39, 0.40, 1.0],
+                      ),
+                      color: Colors.white.withOpacity(0.1),
                     ),
                     Column(
                       children: [
@@ -131,33 +151,41 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             itemCount: data.length,
                             itemBuilder: (p0, index) {
                               // print("----${data.length}");
-                              return GlassContainer(
-                                isFrostedGlass: true,
-                                frostedOpacity: 0.05,
-                                height: 80,
-                                blur: 10,
-                                width: MediaQuery.of(context).size.width * 0.95,
-                                borderRadius: BorderRadius.circular(35),
-                                borderWidth: 0.0,
-                                borderGradient: const LinearGradient(
-                                  colors: [
-                                    Colors.white,
-                                    Colors.white,
-                                    Colors.lightBlueAccent,
-                                    Colors.lightBlueAccent
-                                  ],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  stops: [0.0, 0.39, 0.40, 1.0],
-                                ),
-                                color: Colors.white.withOpacity(0.1),
+                              return
+                                  // GlassContainer(
+                                  //   isFrostedGlass: true,
+                                  //   frostedOpacity: 0.05,
+                                  //   height: 80,
+                                  //   blur: 10,
+                                  //   width: MediaQuery.of(context).size.width * 0.95,
+                                  //   borderRadius: BorderRadius.circular(35),
+                                  //   borderWidth: 0.0,
+                                  //   borderGradient: const LinearGradient(
+                                  //     colors: [
+                                  //       Colors.white,
+                                  //       Colors.white,
+                                  //       Colors.lightBlueAccent,
+                                  //       Colors.lightBlueAccent
+                                  //     ],
+                                  //     begin: Alignment.topLeft,
+                                  //     end: Alignment.bottomRight,
+                                  //     stops: [0.0, 0.39, 0.40, 1.0],
+                                  //   ),
+                                  //   color: Colors.white.withOpacity(0.1),
+                                  //   child:
+
+                                  Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5),
                                 child: Container(
                                   height: 78,
                                   width:
                                       MediaQuery.of(context).size.width * 0.83,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(35),
-                                    color: Colors.white.withOpacity(0.0),
+                                    color:
+                                        const Color.fromARGB(255, 203, 113, 255)
+                                            .withOpacity(0.2),
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(15),
@@ -183,6 +211,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                       ),
                                     ),
                                   ),
+                                  // ),
                                 ),
                               );
                             },

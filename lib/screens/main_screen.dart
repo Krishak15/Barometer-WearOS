@@ -1,13 +1,14 @@
 import 'package:barometer_app/screens/details_screen.dart';
 import 'package:barometer_app/services/elevation/altitude_api.dart';
 import 'package:barometer_app/services/broadcast/sensor_data.dart';
-import 'package:blurrycontainer/blurrycontainer.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:glass_kit/glass_kit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:intl/intl.dart';
+
 import 'package:marquee/marquee.dart';
 
 import 'package:provider/provider.dart';
@@ -33,9 +34,7 @@ class _MainScreenState extends State<MainScreen>
     super.initState();
     // Provider.of<AltitudeApiProvider>(context, listen: false)
     //     .fetchAltitudeData(context);
-    // Provider.of<ReverseGeoCodingProvider>(context, listen: false)
-    //     .fetchApiData(context);
-    _saveTime();
+    Provider.of<ReverseGeoCodingProvider>(context, listen: false).saveTime();
     _loadSavedTime();
   }
 
@@ -47,30 +46,21 @@ class _MainScreenState extends State<MainScreen>
     super.didChangeDependencies();
     Provider.of<ReverseGeoCodingProvider>(context, listen: false)
         .fetchApiData(context);
+    Provider.of<ReverseGeoCodingProvider>(context, listen: false).saveTime();
   }
 
   late String savedTime;
 
-  _saveTime() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String currentTime = DateFormat('hh:mm a').format(DateTime.now());
-    await prefs.setString('saved_time', currentTime);
-
-    setState(() {
-      savedTime = currentTime;
-    });
-  }
-
   _loadSavedTime() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      savedTime = prefs.getString('saved_time') ?? 'No time saved yet';
-    });
+
+    savedTime = prefs.getString('saved_time') ?? 'No time saved yet';
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       body: FutureBuilder<void>(
@@ -89,7 +79,7 @@ class _MainScreenState extends State<MainScreen>
                 color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                 child: const Center(
                     child: CircularProgressIndicator(
-                  color: Colors.amber,
+                  color: Colors.white,
                   strokeWidth: 1.2,
                 )),
               ),
@@ -160,21 +150,36 @@ class _MainScreenState extends State<MainScreen>
           const LavaAnimation(
               child: SizedBox(
             height: double.infinity,
-            width: 80,
+            width: 100,
           )),
-          BlurryContainer(
-              blur: 15,
-              color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-              child: const SizedBox(
-                  height: double.infinity, width: double.infinity)),
+          GlassContainer(
+            height: MediaQuery.of(context).size.height,
+            blur: 10,
+            width: MediaQuery.of(context).size.width,
+            borderWidth: 0.0,
+            borderGradient: const LinearGradient(
+              colors: [
+                Colors.white,
+                Colors.white,
+                Colors.lightBlueAccent,
+                Colors.lightBlueAccent
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              stops: [0.0, 0.39, 0.40, 1.0],
+            ),
+            color: Colors.white.withOpacity(0.1),
+          ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               GestureDetector(
                 onTap: () {
-                  _saveTime();
+                  Provider.of<ReverseGeoCodingProvider>(context, listen: false)
+                      .saveTime();
                   Provider.of<ReverseGeoCodingProvider>(context, listen: false)
                       .fetchApiData(context);
+                  _loadSavedTime();
                 },
                 child: Padding(
                   padding: EdgeInsets.all(displayName == "Unknown" ? 15 : 0),
@@ -183,8 +188,8 @@ class _MainScreenState extends State<MainScreen>
                     children: [
                       revGeoLoading
                           ? const SizedBox(
-                              height: 10,
-                              width: 10,
+                              height: 9,
+                              width: 9,
                               child: Center(
                                 child: CircularProgressIndicator(
                                   strokeWidth: 0.5,
