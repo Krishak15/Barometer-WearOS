@@ -25,7 +25,7 @@ This Flutter app is designed for Wear OS devices to access and display Barometer
 
 ## Screenshots
 
-<img src="screenshots/img1.png" width="150"/> &nbsp; <img src="screenshots/img2.png" width="150"/> 
+<img src="screenshots/img1.png" width="150"  /> &nbsp; <img src="screenshots/img2.png" width="150"/> 
 <img src="screenshots/img3.png" width="150"/> &nbsp; <img src="screenshots/img4.png" width="150"/> 
 
 ## How to debug
