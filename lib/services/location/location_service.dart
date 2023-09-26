@@ -20,7 +20,7 @@ class LocationProvider with ChangeNotifier {
 
       Position position = await Geolocator.getCurrentPosition(
           forceAndroidLocationManager: true,
-          desiredAccuracy: LocationAccuracy.medium);
+          desiredAccuracy: LocationAccuracy.high);
       notifyListeners();
 
       // Stream<Position> position2 = Geolocator.getPositionStream(
