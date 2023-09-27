@@ -32,6 +32,7 @@ class _MainScreenState extends State<MainScreen>
   void initState() {
     //
     super.initState();
+    Provider.of<ReverseGeoCodingProvider>(context, listen: false).saveTime();
     // Provider.of<AltitudeApiProvider>(context, listen: false)
     //     .fetchAltitudeData(context);
     Provider.of<ReverseGeoCodingProvider>(context, listen: false).saveTime();
@@ -156,7 +157,9 @@ class _MainScreenState extends State<MainScreen>
             height: MediaQuery.of(context).size.height,
             blur: 10,
             width: MediaQuery.of(context).size.width,
-            borderWidth: 0.0,
+            borderWidth: 0.1,
+            color: Colors.transparent,
+
             borderGradient: const LinearGradient(
               colors: [
                 Colors.white,
@@ -168,7 +171,7 @@ class _MainScreenState extends State<MainScreen>
               end: Alignment.bottomRight,
               stops: [0.0, 0.39, 0.40, 1.0],
             ),
-            color: Colors.white.withOpacity(0.1),
+            // color: Colors.white.withOpacity(0.1),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
