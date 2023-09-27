@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:barometer_app/lava_lamp/lava_clock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,7 +8,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'package:scroll_snap_list/scroll_snap_list.dart';
+import 'package:wearable_rotary/wearable_rotary.dart';
 
+import '../rotary_controller/rotarysubscription.dart';
 import '../services/reverse_geocoding/geocodingapi.dart';
 
 class DetailsScreen extends StatefulWidget {
@@ -17,12 +21,19 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
-  int _focusedIndex = 0;
+  int _focusedIndex = -1;
 
   void _onItemFocus(int index) {
     setState(() {
       _focusedIndex = index;
+      // HapticFeedback.lightImpact();
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    rotarySubscription.cancel();
   }
 
   @override
@@ -103,7 +114,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         end: Alignment.bottomRight,
                         stops: [0.0, 0.39, 0.40, 1.0],
                       ),
-                      color: Colors.white.withOpacity(0.1),
+                      color: Colors.white.withOpacity(0.05),
                     ),
                     Column(
                       children: [
@@ -141,40 +152,23 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         ),
                         Expanded(
                           child: ScrollSnapList(
+                            listController:
+                                RotaryScrollController(maxIncrement: 10),
+
                             updateOnScroll: true,
                             scrollDirection: Axis.vertical,
                             onItemFocus: _onItemFocus,
+                            clipBehavior: Clip.hardEdge,
+                            dynamicSizeEquation: (distance) {
+                              return 1 - min(distance.abs() / 300, 0.2);
+                            },
                             initialIndex: 0,
                             scrollPhysics: const BouncingScrollPhysics(),
 
                             itemSize: 80,
                             itemCount: data.length,
-                            itemBuilder: (p0, index) {
-                              // print("----${data.length}");
-                              return
-                                  // GlassContainer(
-                                  //   isFrostedGlass: true,
-                                  //   frostedOpacity: 0.05,
-                                  //   height: 80,
-                                  //   blur: 10,
-                                  //   width: MediaQuery.of(context).size.width * 0.95,
-                                  //   borderRadius: BorderRadius.circular(35),
-                                  //   borderWidth: 0.0,
-                                  //   borderGradient: const LinearGradient(
-                                  //     colors: [
-                                  //       Colors.white,
-                                  //       Colors.white,
-                                  //       Colors.lightBlueAccent,
-                                  //       Colors.lightBlueAccent
-                                  //     ],
-                                  //     begin: Alignment.topLeft,
-                                  //     end: Alignment.bottomRight,
-                                  //     stops: [0.0, 0.39, 0.40, 1.0],
-                                  //   ),
-                                  //   color: Colors.white.withOpacity(0.1),
-                                  //   child:
-
-                                  Padding(
+                            itemBuilder: (_, index) {
+                              return Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 5),
                                 child: Container(
@@ -215,7 +209,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 ),
                               );
                             },
-
+                            selectedItemAnchor: SelectedItemAnchor.MIDDLE,
                             dynamicItemSize: true,
                             // dynamicSizeEquation: customEquation, //optional
                           ),
