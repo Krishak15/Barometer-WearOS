@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:55476942467:android:23ac57373c0c5c6d7acdb6",
         "android_client_info": {
-          "package_name": "com.example.barometer_app"
+          "package_name": "com.akdev.baroloc"
         }
       },
       "oauth_client": [
