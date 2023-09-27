@@ -18,7 +18,6 @@ class ReverseGeoCodingProvider with ChangeNotifier {
 
   String get savedTime => _savedTime;
 
-
   //To save last Location fetch time
   saveTime() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -28,8 +27,6 @@ class ReverseGeoCodingProvider with ChangeNotifier {
     _savedTime = currentTime;
     notifyListeners();
   }
-
-  
 
   Future<void> fetchApiData(ctx) async {
     if (kDebugMode) {
@@ -55,7 +52,7 @@ class ReverseGeoCodingProvider with ChangeNotifier {
     final long = coordinates.longitude!.toStringAsFixed(6);
 
     final url = Uri.parse(
-        "https://eu1.locationiq.com/v1/reverse?key=$API_TOKEN&$coordinatesval&format=json");
+        "https://eu1.locationiq.com/v1/reverse?key=$apiKey&$coordinatesval&format=json");
 
     final response = await http.get(url);
 
