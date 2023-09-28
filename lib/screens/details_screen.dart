@@ -21,7 +21,7 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
-  int _focusedIndex = -1;
+  int _focusedIndex = 0;
 
   void _onItemFocus(int index) {
     setState(() {
