@@ -37,6 +37,13 @@ This Flutter app is designed for Wear OS devices to access and display Barometer
 5) ```adb pair``` is used for wifi pairing your device with Android >= 11, while ```adb connect``` can be used to connect directly to a device with Android <11 over wifi.
 6) Either you can debug directly or Build app using ```flutter build apk``` command and install the app using ```adb install <path to .apk file>``` **recommended**
 
+## How to install
+
+1) Do the same steps as above in **How to debug** section tiil **Step 5**.
+2) Then copy downloaded file to PC and run command prompt in the same folder. 
+3) Install the app using ```adb install <path to .apk file>``` (PC). You can also use your android phone to install app; use **GeminiMan** WearOS Manager app from playstore.
+4) Enjoy the app.
+
    
    
 
