@@ -1,16 +1,11 @@
-![my badge](https://img.shields.io/badge/Made%20with-Flutter-blue?style=for-the-badge&logo=flutter)  &nbsp;  &nbsp; ![my badge](https://img.shields.io/github/last-commit/Krishak15/Barometer-WearOS/main?style=for-the-badge) <img src="screenshots/updated/img1.png" width="150"  />
-
-
-
-
-&nbsp;
+![my badge](https://img.shields.io/badge/Made%20with-Flutter-blue?style=for-the-badge&logo=flutter)  &nbsp; ![my badge](https://img.shields.io/github/last-commit/Krishak15/Barometer-WearOS/main?style=for-the-badge) &nbsp; <img src="screenshots/photos/badge.svg" width="150"  />
 
 # Barometer WearOS
 
 This Flutter app is designed for Wear OS devices to access and display Barometer values, Location data, and Altitude information. It utilizes Flutter's cross-platform capabilities to deliver sensor data directly to your wrist. This README provides an overview of the app's features.
 &nbsp;
 <div id="image-container">
-  <img src="screenshots/Barometer.png" alt="Poster">
+  <img src="screenshots/WearOS.-poster-new.png" alt="Poster">
 </div>
 &nbsp;
 &nbsp;
@@ -32,6 +27,17 @@ This Flutter app is designed for Wear OS devices to access and display Barometer
 <img src="screenshots/updated/img1.png" width="150"  /> &nbsp; <img src="screenshots/updated/img2.png" width="150"/>  &nbsp;
 <img src="screenshots/updated/img3.png" width="150"/> &nbsp; <img src="screenshots/updated/img4.png" width="150"/> 
 &nbsp; <img src="screenshots/updated/img5.png" width="150"/> &nbsp; <img src="screenshots/updated/img6.png" width="150"/> 
+
+## App on a Physical Device
+
+<div id="image-container">
+<img src="screenshots/photos/bimg1.jpg" width="300"/> &nbsp;  <img src="screenshots/photos/bimg2.jpg" width="300"/> &nbsp;  </div>
+
+ <video width="640" height="360" controls>
+        <source src="screenshots/bvid1.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
 
 ## How to debug
 
