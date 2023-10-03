@@ -33,10 +33,10 @@ This Flutter app is designed for Wear OS devices to access and display Barometer
 <div id="image-container">
 <img src="screenshots/photos/bimg1.jpg" width="300"/> &nbsp;  <img src="screenshots/photos/bimg2.jpg" width="300"/> &nbsp;  </div>
 
- <video width="640" height="360" controls>
-        <source src="screenshots/bvid1.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
+
+
+
+
 
 
 ## How to debug
