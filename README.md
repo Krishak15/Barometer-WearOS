@@ -1,6 +1,7 @@
-![my badge](https://img.shields.io/badge/Made%20with-Flutter-blue?style=for-the-badge&logo=flutter)  &nbsp;  &nbsp; ![my badge](https://img.shields.io/github/last-commit/Krishak15/Barometer-WearOS/main?style=for-the-badge) 
+![my badge](https://img.shields.io/badge/Made%20with-Flutter-blue?style=for-the-badge&logo=flutter)  &nbsp;  &nbsp; ![my badge](https://img.shields.io/github/last-commit/Krishak15/Barometer-WearOS/main?style=for-the-badge) <img src="screenshots/updated/img1.png" width="150"  />
 
-[![forthebadge](data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODcuMTg3NSIgaGVpZ2h0PSIzNSIgdmlld0JveD0iMCAwIDE4Ny4xODc1IDM1Ij48cmVjdCB3aWR0aD0iOTMuNTM3NDk4NDc0MTIxMSIgaGVpZ2h0PSIzNSIgZmlsbD0iIzFhOTRiYSIvPjxyZWN0IHg9IjkzLjUzNzQ5ODQ3NDEyMTEiIHdpZHRoPSI5My42NTAwMDE1MjU4Nzg5IiBoZWlnaHQ9IjM1IiBmaWxsPSIjZTZkMTAwIi8+PHRleHQgeD0iNDYuNzY4NzQ5MjM3MDYwNTUiIHk9IjE3LjUiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtZmFtaWx5PSInUm9ib3RvJywgc2Fucy1zZXJpZiIgZmlsbD0iI0ZGRkZGRiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgYWxpZ25tZW50LWJhc2VsaW5lPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSIyIj5CVUlMVCBGT1I8L3RleHQ+PHRleHQgeD0iMTQwLjM2MjQ5OTIzNzA2MDU1IiB5PSIxNy41IiBmb250LXNpemU9IjEyIiBmb250LWZhbWlseT0iJ01vbnRzZXJyYXQnLCBzYW5zLXNlcmlmIiBmaWxsPSIjRkZGRkZGIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0iNTAwIiBhbGlnbm1lbnQtYmFzZWxpbmU9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjIiPldFQVIgT1M8L3RleHQ+PC9zdmc+)](https://forthebadge.com)
+
+
 
 &nbsp;
 
