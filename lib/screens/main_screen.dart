@@ -30,12 +30,10 @@ class _MainScreenState extends State<MainScreen>
     with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
-    //
+    Provider.of<ReverseGeoCodingProvider>(context, listen: false).saveTime();
+
     super.initState();
-    Provider.of<ReverseGeoCodingProvider>(context, listen: false).saveTime();
-    // Provider.of<AltitudeApiProvider>(context, listen: false)
-    //     .fetchAltitudeData(context);
-    Provider.of<ReverseGeoCodingProvider>(context, listen: false).saveTime();
+
     _loadSavedTime();
   }
 
@@ -44,10 +42,15 @@ class _MainScreenState extends State<MainScreen>
     if (kDebugMode) {
       print("didChangedDependencies");
     }
-    super.didChangeDependencies();
+
     Provider.of<ReverseGeoCodingProvider>(context, listen: false)
         .fetchApiData(context);
+
     Provider.of<ReverseGeoCodingProvider>(context, listen: false).saveTime();
+
+    _loadSavedTime();
+
+    super.didChangeDependencies();
   }
 
   late String savedTime;
@@ -92,36 +95,18 @@ class _MainScreenState extends State<MainScreen>
   }
 
   Widget _buildStreamBuilder(BuildContext context) {
-    //Elevation Data
-    final elevationData =
-        Provider.of<AltitudeApiProvider>(context, listen: true);
-    //
     //RevGeoCoding Data
     final revGeoCode =
         Provider.of<ReverseGeoCodingProvider>(context, listen: true)
             .reverseGeoModel;
-    final revGeoCodeisLoading =
-        Provider.of<ReverseGeoCodingProvider>(context, listen: true).isLoading;
 
-    final pressureData =
-        Provider.of<SensorDataProvider>(context, listen: true).latestPressure;
-    //
-
-    return _buildBody(
-      pressureData,
-      elevationData.elevation,
-      revGeoCode,
-      elevationData.isLoading,
-      revGeoCodeisLoading,
-    );
+    return _buildBody(revGeoCode);
   }
 
   Widget _buildBody(
-    double pressureData,
-    double elevation,
     ReverseGeoGeocodingModel? revGeoCode,
-    bool loading,
-    bool revGeoLoading,
+
+    // bool revGeoLoading,
   ) {
     String locationName = "Unknown";
     String displayName = "Unknown";
@@ -186,35 +171,38 @@ class _MainScreenState extends State<MainScreen>
                 },
                 child: Padding(
                   padding: EdgeInsets.all(displayName == "Unknown" ? 15 : 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      revGeoLoading
-                          ? const SizedBox(
-                              height: 9,
-                              width: 9,
-                              child: Center(
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 0.5,
-                                  color: Colors.white,
+                  child: Consumer<ReverseGeoCodingProvider>(
+                      builder: (context, revGeoCoding, child) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        revGeoCoding.isLoading
+                            ? const SizedBox(
+                                height: 9,
+                                width: 9,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 0.5,
+                                    color: Colors.white,
+                                  ),
                                 ),
+                              )
+                            : const Icon(
+                                EvaIcons.refresh_outline,
+                                color: Colors.white,
+                                size: 10,
                               ),
-                            )
-                          : const Icon(
-                              EvaIcons.refresh_outline,
-                              color: Colors.white,
-                              size: 10,
-                            ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        savedTime,
-                        style: GoogleFonts.poppins(
-                            color: Colors.white, fontSize: 11),
-                      )
-                    ],
-                  ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          savedTime,
+                          style: GoogleFonts.poppins(
+                              color: Colors.white, fontSize: 11),
+                        )
+                      ],
+                    );
+                  }),
                 ),
               ),
               displayName == "Unknown"
@@ -233,108 +221,117 @@ class _MainScreenState extends State<MainScreen>
                             const SizedBox(
                               width: 2,
                             ),
-                            Stack(
-                              children: [
-                                revGeoLoading
-                                    ? const SizedBox()
-                                    : SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.7,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            InkWell(
-                                              onTap: () {
-                                                Navigator.of(context)
-                                                    .push(MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const DetailsScreen(),
-                                                ));
-                                                HapticFeedback.lightImpact();
-                                              },
-                                              child: const Padding(
-                                                padding:
-                                                    EdgeInsets.only(top: 1),
-                                                child: Icon(
-                                                  Icons
-                                                      .arrow_forward_ios_rounded,
-                                                  size: 16,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.6,
-                                  height: 18,
-                                  child: revGeoLoading == false
-                                      ? GestureDetector(
-                                          onTap: () {
-                                            Navigator.of(context)
-                                                .push(MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const DetailsScreen(),
-                                            ));
-                                            HapticFeedback.lightImpact();
-                                          },
-                                          child: Marquee(
-                                            startAfter: Duration(
-                                                seconds: revGeoLoading ? 5 : 0),
-                                            fadingEdgeEndFraction: 0.35,
-                                            fadingEdgeStartFraction: 0.15,
-                                            showFadingOnlyWhenScrolling: false,
-                                            text: displayName,
-                                            style: GoogleFonts.poppins(
-                                                wordSpacing: 1,
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 11,
-                                                color: Colors.white),
+                            Consumer<ReverseGeoCodingProvider>(
+                                builder: (context, revGeoCoding, child) {
+                              return Stack(
+                                children: [
+                                  revGeoCoding.isLoading
+                                      ? const SizedBox()
+                                      : SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.7,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
-                                            blankSpace: 20.0,
-                                            velocity: 50.0,
-                                            pauseAfterRound:
-                                                const Duration(seconds: 5),
-                                            startPadding: 4.0,
-                                            accelerationDuration:
-                                                const Duration(seconds: 2),
-                                            accelerationCurve: Curves.linear,
-                                            decelerationDuration:
-                                                const Duration(
-                                                    milliseconds: 500),
-                                            decelerationCurve: Curves.easeOut,
-                                          ),
-                                        )
-                                      : Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.6,
-                                              child: Text(
-                                                locationName,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: GoogleFonts.poppins(
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  Navigator.of(context)
+                                                      .push(MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const DetailsScreen(),
+                                                  ));
+                                                  HapticFeedback.lightImpact();
+                                                },
+                                                child: const Padding(
+                                                  padding:
+                                                      EdgeInsets.only(top: 1),
+                                                  child: Icon(
+                                                    Icons
+                                                        .arrow_forward_ios_rounded,
+                                                    size: 16,
                                                     color: Colors.white,
-                                                    fontSize: 10),
+                                                  ),
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
-                                ),
-                              ],
-                            ),
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.6,
+                                    height: 18,
+                                    child: revGeoCoding.isLoading == false
+                                        ? GestureDetector(
+                                            onTap: () {
+                                              Navigator.of(context)
+                                                  .push(MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const DetailsScreen(),
+                                              ));
+                                              HapticFeedback.lightImpact();
+                                            },
+                                            child: Marquee(
+                                              startAfter: Duration(
+                                                  seconds:
+                                                      revGeoCoding.isLoading
+                                                          ? 5
+                                                          : 0),
+                                              fadingEdgeEndFraction: 0.35,
+                                              fadingEdgeStartFraction: 0.15,
+                                              showFadingOnlyWhenScrolling:
+                                                  false,
+                                              text: displayName,
+                                              style: GoogleFonts.poppins(
+                                                  wordSpacing: 1,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 11,
+                                                  color: Colors.white),
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              blankSpace: 20.0,
+                                              velocity: 50.0,
+                                              pauseAfterRound:
+                                                  const Duration(seconds: 5),
+                                              startPadding: 4.0,
+                                              accelerationDuration:
+                                                  const Duration(seconds: 2),
+                                              accelerationCurve: Curves.linear,
+                                              decelerationDuration:
+                                                  const Duration(
+                                                      milliseconds: 500),
+                                              decelerationCurve: Curves.easeOut,
+                                            ),
+                                          )
+                                        : Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.6,
+                                                child: Text(
+                                                  locationName,
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: GoogleFonts.poppins(
+                                                      color: Colors.white,
+                                                      fontSize: 10),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                  ),
+                                ],
+                              );
+                            }),
                           ],
                         ),
                       ),
@@ -360,13 +357,18 @@ class _MainScreenState extends State<MainScreen>
                           const SizedBox(
                             width: 10,
                           ),
-                          Text(
-                            pressureData.toStringAsFixed(1).toString(),
-                            style: GoogleFonts.dmSans(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600),
-                          ),
+                          Consumer<SensorDataProvider>(
+                              builder: (context, sensorStream, child) {
+                            return Text(
+                              sensorStream.latestPressure
+                                  .toStringAsFixed(1)
+                                  .toString(),
+                              style: GoogleFonts.dmSans(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600),
+                            );
+                          }),
                           Text(
                             " hPa",
                             style: GoogleFonts.dmSans(
@@ -378,28 +380,31 @@ class _MainScreenState extends State<MainScreen>
                       ),
                     )),
               ),
-              loading == false
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          "assets/altitude.png",
-                          height: 16,
-                          width: 16,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          "${elevation.toStringAsFixed(0).toString()} m",
-                          style: GoogleFonts.poppins(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400),
-                        )
-                      ],
-                    )
-                  : const SizedBox(),
+              Consumer<AltitudeApiProvider>(
+                  builder: (context, elevationData, child) {
+                return elevationData.isLoading == false
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            "assets/altitude.png",
+                            height: 16,
+                            width: 16,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            "${elevationData.elevation.toStringAsFixed(0).toString()} m",
+                            style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400),
+                          )
+                        ],
+                      )
+                    : const SizedBox();
+              })
             ],
           ),
         ],

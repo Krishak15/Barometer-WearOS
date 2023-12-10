@@ -25,6 +25,9 @@ class ReverseGeoCodingProvider with ChangeNotifier {
     await prefs.setString('saved_time', currentTime);
 
     _savedTime = currentTime;
+    if (kDebugMode) {
+      print("objects: ${[currentTime, _savedTime]}");
+    }
     notifyListeners();
   }
 
