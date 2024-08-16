@@ -47,12 +47,13 @@ dependencies:
   wearable_rotary: ^2.0.2
   scroll_snap_list: ^0.9.1
   glass_kit: ^3.0.0
+  flutter_wear_os_connectivity: ^1.0.0
+  flutter_carousel_widget: ^2.2.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.

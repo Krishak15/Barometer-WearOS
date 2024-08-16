@@ -1,5 +1,5 @@
-import 'package:barometer_app/services/reverse_geocoding/geocode_api_key.dart';
-import 'package:barometer_app/services/reverse_geocoding/revgeocoding_model.dart';
+import 'package:barometer_app/keys/api_keys.dart';
+import 'package:barometer_app/services/reverse_geocoding/model/revgeocoding_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -55,7 +55,7 @@ class ReverseGeoCodingProvider with ChangeNotifier {
     final long = coordinates.longitude!.toStringAsFixed(6);
 
     final url = Uri.parse(
-        "https://eu1.locationiq.com/v1/reverse?key=$apiKey&$coordinatesval&format=json");
+        "https://eu1.locationiq.com/v1/reverse?key=$revGeoApiKey&$coordinatesval&format=json");
 
     final response = await http.get(url);
 

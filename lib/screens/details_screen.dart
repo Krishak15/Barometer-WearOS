@@ -1,8 +1,10 @@
 import 'dart:math';
 
 import 'package:barometer_app/lava_lamp/lava_clock.dart';
+import 'package:barometer_app/mixins/_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_wear_os_connectivity/flutter_wear_os_connectivity.dart';
 import 'package:glass_kit/glass_kit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +14,7 @@ import 'package:wearable_rotary/wearable_rotary.dart';
 
 import '../rotary_controller/rotarysubscription.dart';
 import '../services/reverse_geocoding/geocodingapi.dart';
+import '../services/weather/api/weather_api_services.dart';
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({super.key});
@@ -20,7 +23,7 @@ class DetailsScreen extends StatefulWidget {
   State<DetailsScreen> createState() => _DetailsScreenState();
 }
 
-class _DetailsScreenState extends State<DetailsScreen> {
+class _DetailsScreenState extends State<DetailsScreen> with dataMixin {
   int _focusedIndex = 0;
 
   void _onItemFocus(int index) {
@@ -46,13 +49,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
           width: MediaQuery.of(context).size.height,
           child: Stack(
             children: [
-              const Center(
+              Center(
                 child: LavaAnimation(
-                    // color: Colors.red,
-                    child: SizedBox(
-                  height: double.infinity,
-                  width: 100,
-                )),
+                    color: changeWeatherTheme(
+                        context, context.read<WeatherApiService>()),
+                    child: const SizedBox(
+                      height: double.infinity,
+                      width: 100,
+                    )),
               ),
               GlassContainer(
                 height: MediaQuery.of(context).size.height,
@@ -165,43 +169,50 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           itemSize: 80,
                           itemCount: data.length,
                           itemBuilder: (_, index) {
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 5),
-                              child: Container(
-                                height: 78,
-                                width: MediaQuery.of(context).size.width * 0.83,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(35),
-                                  color:
-                                      const Color.fromARGB(255, 203, 113, 255)
-                                          .withOpacity(0.2),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(15),
-                                  child: Center(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      // crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          data[index]['title'],
-                                          style: GoogleFonts.poppins(
-                                              color: Colors.white),
-                                        ),
-                                        Text(
-                                          data[index]['data'],
-                                          overflow: TextOverflow.ellipsis,
-                                          style: GoogleFonts.poppins(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600),
-                                        )
-                                      ],
+                            return Visibility(
+                              visible: data[index]['data'] != 'Unavailabe',
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5),
+                                child: Container(
+                                  height: 78,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.83,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(35),
+                                      color: changeWeatherTheme(context,
+                                              context.read<WeatherApiService>())
+                                          .withOpacity(0.2)
+
+                                      // const Color.fromARGB(255, 203, 113, 255)
+                                      // .withOpacity(0.2),
+                                      ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(15),
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        // crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            data[index]['title'],
+                                            style: GoogleFonts.poppins(
+                                                color: Colors.white),
+                                          ),
+                                          Text(
+                                            data[index]['data'],
+                                            overflow: TextOverflow.ellipsis,
+                                            style: GoogleFonts.poppins(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
+                                  // ),
                                 ),
-                                // ),
                               ),
                             );
                           },

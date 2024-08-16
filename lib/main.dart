@@ -1,6 +1,7 @@
 import 'package:barometer_app/screens/main_screen.dart';
 import 'package:barometer_app/services/elevation/altitude_api.dart';
 import 'package:barometer_app/services/broadcast/sensor_data.dart';
+import 'package:barometer_app/services/weather/api/weather_api_services.dart';
 
 import 'package:flutter/material.dart';
 
@@ -26,6 +27,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => SensorDataProvider()),
         ChangeNotifierProvider(create: (_) => AltitudeApiProvider()),
         ChangeNotifierProvider(create: (_) => ReverseGeoCodingProvider()),
+        ChangeNotifierProvider(create: (_) => WeatherApiService()),
         // ChangeNotifierProvider(create: (_) => LocationProvider()),
       ],
       child: const MyApp(),
