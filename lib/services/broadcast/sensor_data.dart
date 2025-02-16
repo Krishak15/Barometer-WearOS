@@ -3,17 +3,6 @@ import 'dart:async';
 import 'package:environment_sensors/environment_sensors.dart';
 import 'package:flutter/material.dart';
 
-// class SensorDataProvider with ChangeNotifier {
-//   EnvironmentSensors? environmentSensors;
-
-//   EnvironmentSensors get sensorData => environmentSensors!;
-
-//   Future<void> initPlatformState() async {
-//     environmentSensors = EnvironmentSensors();
-//   }
-
-//   Stream<double> get pressureStream => environmentSensors!.pressure;
-// }
 
 class SensorDataProvider with ChangeNotifier {
   EnvironmentSensors? environmentSensors;
@@ -30,10 +19,10 @@ class SensorDataProvider with ChangeNotifier {
     notifyListeners();
 
     // Start updating at 2-minute intervals
-    _pressureStreamSubscription = Stream.periodic(const Duration(minutes: 5))
+    _pressureStreamSubscription = Stream.periodic(const Duration(seconds: 15))
         .asyncMap((_) => environmentSensors!.pressure.first)
         .listen((pressure) {
-      // print(pressure);
+      
       _latestPressure = pressure;
 
       notifyListeners();

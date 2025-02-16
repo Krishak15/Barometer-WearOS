@@ -7,13 +7,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
-import 'package:flutter_wear_os_connectivity/flutter_wear_os_connectivity.dart';
 import 'package:glass_kit/glass_kit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:watch_connectivity/watch_connectivity.dart';
 
 import '../lava_lamp/lava_clock.dart';
 import '../services/reverse_geocoding/geocodingapi.dart';
@@ -33,26 +34,30 @@ class _MainScreenState extends State<MainScreen>
     Provider.of<ReverseGeoCodingProvider>(context, listen: false).saveTime();
 
     super.initState();
-    loadSavedTime();
 
+    Provider.of<SensorDataProvider>(context, listen: false).initPlatformState();
     Future.microtask(() async {
+      //to load last refresh time
+      loadSavedTime();
+
+      //get all data related to weather
       await context.read<WeatherApiService>().getWeatherData();
-      // initWearOSConnectivity();
+
+      //barometer data
+      final pressure = SensorDataProvider().latestPressure;
+
+      sendMessage(pressure.toString());
     });
   }
 
-  final FlutterWearOsConnectivity _flutterWearOsConnectivity =
-      FlutterWearOsConnectivity();
+  final watch = WatchConnectivity();
 
-  void initWearOSConnectivity() async {
-    _flutterWearOsConnectivity.configureWearableAPI();
-    List<WearOsDevice> _connectedDevices =
-        await _flutterWearOsConnectivity.getConnectedDevices();
-    if (kDebugMode) {
-      print("Connected devices: $_connectedDevices");
-    }
-    WearOsDevice _localDevice =
-        await _flutterWearOsConnectivity.getLocalDevice();
+  ///[sendMessage] function to send data to companion app (Android)
+  sendMessage(String text) {
+    final message = {
+      'pressureData': text,
+    };
+    watch.sendMessage(message);
   }
 
   @override
@@ -64,12 +69,18 @@ class _MainScreenState extends State<MainScreen>
     Provider.of<ReverseGeoCodingProvider>(context, listen: false)
         .fetchApiData(context);
     Provider.of<ReverseGeoCodingProvider>(context, listen: false).saveTime();
+
     loadSavedTime();
 
     super.didChangeDependencies();
   }
 
   late String savedTime;
+
+  void loadSavedTime() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    savedTime = prefs.getString('saved_time') ?? 'No time saved yet';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +120,6 @@ class _MainScreenState extends State<MainScreen>
   }
 
   Widget _buildStreamBuilder(BuildContext context) {
-    //RevGeoCoding Data
     final revGeoCode =
         Provider.of<ReverseGeoCodingProvider>(context, listen: true)
             .reverseGeoModel;
@@ -196,7 +206,6 @@ class _MainScreenState extends State<MainScreen>
                             listen: false)
                         .fetchApiData(context);
                     await context.read<WeatherApiService>().getWeatherData();
-
                     loadSavedTime();
                   },
                   child: AnimatedSwitcher(
@@ -321,7 +330,7 @@ class _MainScreenState extends State<MainScreen>
                                           ),
                                     SizedBox(
                                       width: MediaQuery.of(context).size.width *
-                                          0.6,
+                                          0.65,
                                       height: 18,
                                       child: revGeoCoding.isLoading == false
                                           ? GestureDetector(
@@ -334,16 +343,16 @@ class _MainScreenState extends State<MainScreen>
                                                 HapticFeedback.lightImpact();
                                               },
                                               child: Marquee(
+                                                text: displayName,
                                                 startAfter: Duration(
                                                     seconds:
                                                         revGeoCoding.isLoading
                                                             ? 5
                                                             : 0),
-                                                fadingEdgeEndFraction: 0.35,
+                                                fadingEdgeEndFraction: 0.15,
                                                 fadingEdgeStartFraction: 0.15,
                                                 showFadingOnlyWhenScrolling:
                                                     false,
-                                                text: displayName,
                                                 style: GoogleFonts.poppins(
                                                     wordSpacing: 1,
                                                     fontWeight: FontWeight.w400,
@@ -365,8 +374,13 @@ class _MainScreenState extends State<MainScreen>
                                                         milliseconds: 500),
                                                 decelerationCurve:
                                                     Curves.easeOut,
-                                              ),
-                                            )
+                                              )
+
+                                              // CustomMarquee(
+                                              //   displayName: displayName,
+                                              //   revGeoCoding: revGeoCoding,
+                                              // ),
+                                              )
                                           : Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
@@ -419,14 +433,22 @@ class _MainScreenState extends State<MainScreen>
                             ),
                             Consumer<SensorDataProvider>(
                                 builder: (context, sensorStream, child) {
-                              return Text(
-                                sensorStream.latestPressure
-                                    .toStringAsFixed(1)
-                                    .toString(),
-                                style: GoogleFonts.dmSans(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600),
+                              String pressureValue = sensorStream.latestPressure
+                                  .toStringAsFixed(1)
+                                  .toString();
+
+                              sendMessage(pressureValue);
+                              return GestureDetector(
+                                onTap: () {
+                                  sendMessage(pressureValue);
+                                },
+                                child: Text(
+                                  pressureValue,
+                                  style: GoogleFonts.dmSans(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600),
+                                ),
                               );
                             }),
                             Text(
@@ -443,35 +465,42 @@ class _MainScreenState extends State<MainScreen>
                 Consumer2<AltitudeApiProvider, WeatherApiService>(
                     builder: (context, elevationData, weatherService, child) {
                   return elevationData.isLoading == false
-                      ? FlutterCarousel(
-                          options: CarouselOptions(
-                              autoPlay: true,
-                              height: 50,
-                              autoPlayAnimationDuration:
-                                  const Duration(milliseconds: 600),
-                              autoPlayCurve: Curves.easeOutCubic,
-                              showIndicator: true,
-                              enableInfiniteScroll: true,
-                              slideIndicator: const CircularSlideIndicator(
-                                  indicatorRadius: 2, itemSpacing: 7),
-                              indicatorMargin: 5),
-                          items: [
-                            CarouselRowItem(
-                              icon: "assets/altitude.png",
-                              title:
-                                  "${elevationData.elevation.toStringAsFixed(0).toString()} m",
-                            ),
-                            CarouselRowItem(
-                              icon: "assets/thermometer.png",
-                              title:
-                                  "${weatherService.openWeatherDataModel?.main.temp.toStringAsFixed(0).toString()}\u2103",
-                            ),
-                            CarouselRowItem(
-                              icon: "assets/humidity.png",
-                              title:
-                                  "${weatherService.openWeatherDataModel?.main.humidity.toStringAsFixed(0).toString()}%",
-                            ),
-                          ],
+                      ? SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.45,
+                          child: FlutterCarousel(
+                            options: CarouselOptions(
+                                autoPlay: true,
+                                height: 50,
+                                autoPlayAnimationDuration:
+                                    const Duration(milliseconds: 1500),
+                                autoPlayCurve: Curves.easeOutCubic,
+                                showIndicator: true,
+                                enableInfiniteScroll: true,
+                                slideIndicator: const CircularSlideIndicator(
+                                  slideIndicatorOptions: SlideIndicatorOptions(
+                                      indicatorRadius: 2,
+                                      itemSpacing: 7,
+                                      enableAnimation: true),
+                                ),
+                                indicatorMargin: 5),
+                            items: [
+                              CarouselRowItem(
+                                icon: "assets/altitude.png",
+                                title:
+                                    "${elevationData.elevation.toStringAsFixed(0).toString()} m",
+                              ),
+                              CarouselRowItem(
+                                icon: "assets/thermometer.png",
+                                title:
+                                    "${weatherService.openWeatherDataModel?.main.temp.toStringAsFixed(0).toString()}\u2103",
+                              ),
+                              CarouselRowItem(
+                                icon: "assets/humidity.png",
+                                title:
+                                    "${weatherService.openWeatherDataModel?.main.humidity.toStringAsFixed(0).toString()}%",
+                              ),
+                            ],
+                          ),
                         )
                       : const SizedBox();
                 })

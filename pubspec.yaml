@@ -41,14 +41,27 @@ dependencies:
   permission_handler:
   provider: ^6.0.5
   shared_preferences: ^2.2.0
-  marquee: ^2.2.3
+
   intl: ^0.18.1
   icons_launcher: ^2.1.3
   wearable_rotary: ^2.0.2
   scroll_snap_list: ^0.9.1
   glass_kit: ^3.0.0
-  flutter_wear_os_connectivity: ^1.0.0
-  flutter_carousel_widget: ^2.2.0
+  # flutter_wear_os_connectivity: ^1.0.0
+  flutter_carousel_widget: ^2.3.0
+  marquee: 
+   path: lib/plugins/marquee-2.2.3
+
+  wear:
+    git:
+      prs:
+        - https://github.com/fluttercommunity/flutter_wear_plugin/pull/19
+        - https://github.com/fluttercommunity/flutter_wear_plugin/pull/22
+        - https://github.com/fluttercommunity/flutter_wear_plugin/pull/24
+      url: https://github.com/Rexios80/flutter_wear_plugin.git
+      ref: 473262879853259129e0a1d7431ce2e024746d58
+  watch_connectivity: ^0.2.0
+  device_info_plus: ^9.1.2
 
 dev_dependencies:
   flutter_lints: ^2.0.0

@@ -59,8 +59,4 @@ mixin dataMixin {
     }
   }
 
- Future< String> loadSavedTime() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('saved_time') ?? 'No time saved yet';
-  }
 }

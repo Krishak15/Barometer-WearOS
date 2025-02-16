@@ -4,7 +4,6 @@ import 'package:barometer_app/lava_lamp/lava_clock.dart';
 import 'package:barometer_app/mixins/_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_wear_os_connectivity/flutter_wear_os_connectivity.dart';
 import 'package:glass_kit/glass_kit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
